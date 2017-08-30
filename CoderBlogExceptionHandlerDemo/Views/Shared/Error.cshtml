@@ -1,0 +1,63 @@
+﻿@model CoderBlogExceptionHandlerDemo.Models.ErrorViewModel
+
+@{
+    var refUrl = "/";
+    if (Request.UrlReferrer != null)
+    {
+        refUrl = Request.UrlReferrer.ToString();
+    }
+}
+
+
+<div class="row">
+    <section class="col-lg-12">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Error</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Error Message</h3>
+                <p style="color:red;">
+                     @Html.Raw(Model.ErrorInfo.Message)
+                </p>
+                <h3>Details</h3>
+                <p>
+                    @Html.Raw(Model.ErrorInfo.Details)
+                </p>
+                @* Show validation errors *@
+                @if (Model.ErrorInfo.ValidationErrors != null && Model.ErrorInfo.ValidationErrors.Length > 0)
+                {
+                    <ul>
+                        @foreach (var validationError in Model.ErrorInfo.ValidationErrors)
+                        {
+                            <li>
+                                @validationError.Message
+                                @if (validationError.Members != null && validationError.Members.Any())
+                                {
+                                    <text>(@string.Join(", ", validationError.Members))</text>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+
+                <h3>Error URL</h3>
+                <p>
+                    @refUrl
+                </p>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-md-4">
+                <a id="btnBack" class="btn btn-default" href="@refUrl">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
